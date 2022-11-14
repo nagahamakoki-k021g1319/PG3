@@ -1,3 +1,4 @@
+#include<functional>
 #include<stdio.h>
 #include<windows.h>
 #include<stdlib.h>
@@ -17,35 +18,29 @@ void setTimerout(PFunc p, int second) {
 
 int main() {
 
-
     srand(time(nullptr));
     int getRand = rand();
     int player = 0;
     scanf_s("%d", &player);
 
-    getRand = getRand % 2;
+    std::function<int(PFunc, int, int)>fx = [](PFunc p, int x, int second) {
+        p(&second);
+        Sleep(second * 1000);
 
-    PFunc p;
-    p = DispResult;
+        return x % 2;
+    };
 
-    setTimerout(p, 3);
+    getRand = fx(DispResult, getRand, 3);
 
-    if (player == 0) {
-        if (getRand == 0) {
-            printf("大当たり");
-        }
-        else {
-            printf("残念、はずれ");
-        }
-    }
-    else if (player == 1) {
-        if (getRand == 1) {
-            printf("大当たり");
-        }
-        else {
-            printf("残念、はずれ");
-        }
-    }
+
+    //当たってるかどうか
+    std::function<void(int, int)>fortune = [](int playerSelect, int random) {
+
+        playerSelect == random ? printf("大当たり") : printf("残念、はずれ");
+    };
+
+    fortune(player, getRand);
+
 
     return 0;
 }
