@@ -17,6 +17,7 @@ void setTimerout(PFunc p, int second) {
 
 int main() {
 
+
     srand(time(nullptr));
     int getRand = rand();
     int player = 0;
