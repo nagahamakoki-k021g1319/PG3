@@ -33,18 +33,18 @@ int main() {
 
     if (player == 0) {
         if (dice == 0) {
-            printf("“–‚½‚è");
+            printf("“–‚½‚è\n");
         }
         else {
-            printf("‚Í‚¸‚ê");
+            printf("‚Í‚¸‚ê\n");
         }
     }
     else if (player == 1) {
         if (dice == 1) {
-            printf("“–‚½‚è");
+            printf("“–‚½‚è\n");
         }
         else {
-            printf("‚Í‚¸‚ê");
+            printf("‚Í‚¸‚ê\n");
         }
     }
 
