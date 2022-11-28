@@ -1,46 +1,55 @@
-#include<functional>
-#include<stdio.h>
-#include<windows.h>
-#include<stdlib.h>
-#include<time.h>
+#include <functional>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <random>
+#include "windows.h"
 
-typedef void (*PFunc)(int*);
 
-void DispResult(int* s) {
-    printf("%d秒間待機\n", *s);
+int main()
+{
+
+	int dice;//入力した数字を代入する変数
+	int result = 0;
+	int waitTime = 3000;//待ち時間用変数
+
+	printf("数字を代入してください\n");
+	scanf_s("%d", &dice);
+	if (dice % 2 == 0)
+	{
+		printf("偶数\n");
+	}
+	else if (dice % 2 == 1)
+	{
+		printf("奇数\n");
+	}
+
+	//抽選関数
+	std::function<int()> lottery = [&result]()
+	{
+		srand(time(nullptr));
+		result = rand() % 2;
+		return result;
+	};
+
+	//タイムアウトのセッター
+	std::function<void(std::function<void()>, const int)> setTimeOut = [=](std::function<void()> fx, int time)
+	{
+		fx(); Sleep(time);
+	};
+
+	//比較関数
+	std::function<void(char, int)>compation = [=](char input, int output) {
+		input % 2 == output ? printf("当たり\n") : printf("はずれ\n");
+	};
+
+	setTimeOut(lottery, waitTime);
+
+	compation(dice, result);
+
+	system("pause");
+	return 0;
 }
 
-void setTimerout(PFunc p, int second) {
-    p(&second);
-
-    Sleep(second* 1000);
-}
-
-int main() {
-
-    srand(time(nullptr));
-    int getRand = rand();
-    int player = 0;
-    scanf_s("%d", &player);
-
-    std::function<int(PFunc, int, int)>fx = [](PFunc p, int x, int second) {
-        p(&second);
-        Sleep(second * 1000);
-
-        return x % 2;
-    };
-
-    getRand = fx(DispResult, getRand, 3);
 
 
-    //当たってるかどうか
-    std::function<void(int, int)>fortune = [](int playerSelect, int random) {
-
-        playerSelect == random ? printf("大当たり") : printf("残念、はずれ");
-    };
-
-    fortune(player, getRand);
-
-
-    return 0;
-}
