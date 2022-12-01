@@ -1,41 +1,53 @@
-#include<functional>
-#include<stdio.h>
-#include<windows.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <vector>
+#include <list>
+#include <iostream>
 
-typedef void (*PFunc)(int*);
-
-void DispResult(int* s) {
-    printf("%d•bŠÔ‘Ò‹@\n", *s);
-}
+using namespace std;
 
 int main() {
 
-    srand(time(nullptr));
-    int getRand = rand();
-    int player = 0;
-    printf("”¼‚È‚ç1,’š‚È‚ç2\n");
-    scanf_s("%d", &player);
 
-    std::function<int(PFunc, int, int)>fx = [](PFunc p, int x, int second) {
-        p(&second);
-        Sleep(second * 1000);
-
-        return x % 2;
+    std::list<const char*> yamanote = {
+        "Tokyo","Kanda","Akihabara","Okatimati","Ueno",
+        "Uguisudani","Nippori","Tabata","Komagome","Sugamo",
+        "Ootuka","Ikebukuro","Mejiro","Takadanobaba","shinookubo",
+        "Shinjuku","Yoyogi","Harajuku","Shibuya","Ebisu","Meguro",
+        "Gotanda","Oosaki","Shinagawa","Tamati","Hamamatutyou",
+        "Shinbasi","Yurakutyou" 
     };
 
-    getRand = fx(DispResult, getRand, 3);
+    cout << "1970\n";
+    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
+        cout << *itr << "\n";
+    }
 
+    cout << "\n";
 
-    //“–‚½‚Á‚Ä‚é‚©‚Ç‚¤‚©
-    std::function<void(int, int)>fortune = [](int playerSelect, int random) {
+    cout << "2019\n";
+    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
+        if (*itr == "Tabata") {
+            itr = yamanote.insert(itr, "Nisinippori");
+            ++itr;
+        }
+    }
+    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
+        cout << *itr << "\n";
+    }
 
-        playerSelect == random ? printf("“–‚½‚è") : printf("‚Í‚¸‚ê");
-    };
+    cout << "\n";
 
-    fortune(player, getRand);
+    cout << "2022\n";
+    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
+        if (*itr == "Tamati") {
+            itr = yamanote.insert(itr, "Takanawagettoway");
+            ++itr;
+        }
+    }
+    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
+        cout << *itr << "\n";
+    }
 
-
+    system("pause");
     return 0;
 }
