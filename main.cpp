@@ -2,50 +2,81 @@
 #include <vector>
 #include <list>
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
+typedef struct cell {
+    int val;
+    struct cell* prev;
+    struct cell* next;
+} CELL;
+
+CELL* getInsertCellAddress(CELL* endCELL, int iterator) {
+    for (int i = 0; i < iterator; i++){
+        if (endCELL->next) {
+            endCELL = endCELL->next;
+        }
+        else{
+            break;
+        }
+    }
+    return endCELL;
+}
+
+
+void create(CELL* currentCell, int val) {
+    CELL* newCell;
+    newCell = (CELL*)malloc(sizeof(CELL));
+    newCell->val = val;
+    newCell->prev = currentCell;
+    newCell->next = currentCell->next;
+
+    if (currentCell->next) {
+        CELL* nextCell = currentCell->next;
+        nextCell->prev = newCell;
+    }
+
+    currentCell->next = newCell;
+}
+
+void index(CELL* endCell) {
+    int no = 1;
+    while (endCell->next != nullptr){
+        endCell = endCell->next;
+        printf("%d", no);
+        printf("%p", endCell->prev);
+        printf("%5d", endCell->val);
+        printf("(%p)", endCell);
+        printf("%p\n", endCell->next);
+        no++;
+    }
+}
+
+
 int main() {
+    
+    int itetator;
+    int inputValue;
+    CELL* insertCell;
+    //æ“ª‚ÌƒZƒ‹‚ğéŒ¾
+    CELL head;
+    head.next = nullptr;
+    head.prev = nullptr;
 
 
-    std::list<const char*> yamanote = {
-        "Tokyo","Kanda","Akihabara","Okatimati","Ueno",
-        "Uguisudani","Nippori","Tabata","Komagome","Sugamo",
-        "Ootuka","Ikebukuro","Mejiro","Takadanobaba","shinookubo",
-        "Shinjuku","Yoyogi","Harajuku","Shibuya","Ebisu","Meguro",
-        "Gotanda","Oosaki","Shinagawa","Tamati","Hamamatutyou",
-        "Shinbasi","Yurakutyou" 
-    };
+    while (1)
+    {
+        printf("‰½”Ô–Ú‚ÌƒZƒ‹‚ÌŒã‚ë‚É‘}“ü‚µ‚Ü‚·‚©?\n");
+        scanf_s("%d", &itetator);
 
-    cout << "1970\n";
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        cout << *itr << "\n";
-    }
+        printf("‘}“ü‚·‚é’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢\n");
+        scanf_s("%d", &inputValue);
 
-    cout << "\n";
+        insertCell = getInsertCellAddress(&head, itetator);
+        create(insertCell, inputValue);
 
-    cout << "2019\n";
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        if (*itr == "Tabata") {
-            itr = yamanote.insert(itr, "Nisinippori");
-            ++itr;
-        }
-    }
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        cout << *itr << "\n";
-    }
-
-    cout << "\n";
-
-    cout << "2022\n";
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        if (*itr == "Tamati") {
-            itr = yamanote.insert(itr, "Takanawagettoway");
-            ++itr;
-        }
-    }
-    for (auto itr = yamanote.begin(); itr != yamanote.end(); ++itr) {
-        cout << *itr << "\n";
+        index(&head);
     }
 
     system("pause");
