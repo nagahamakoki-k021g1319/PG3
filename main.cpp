@@ -454,7 +454,6 @@ void Edit(List<T>& list, int& SceneNo)
 	{
 		SceneNo = 3;
 	}
-
 }
 
 template<typename T>
