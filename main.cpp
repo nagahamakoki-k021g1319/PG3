@@ -126,9 +126,6 @@ public:
 	void Dump()
 	{
 		Cell<T>* ptr = dummy->next;
-
-		std::cout << "—v‘fˆê——:{" << std::endl;
-
 		int index = 0;
 		for (int i = 0; i < size - 1; i++)
 		{
@@ -138,7 +135,6 @@ public:
 		}
 		std::cout << ' ' << index << ':' << '"' << ptr->value << '"' << std::endl;
 
-		std::cout << '}' << std::endl;
 	}
 
 	void SpecifyElement(int num)
