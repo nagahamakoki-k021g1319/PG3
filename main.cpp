@@ -3,22 +3,22 @@
 #include <string>
 
 template <typename T>
-struct Cell
+struct Node
 {
 	//値
 	T value;
-	Cell* prev;
-	Cell* next;
+	Node* prev;
+	Node* next;
 
 	//コンストラクタ
-	Cell()
+	Node()
 	{
 		//ダミーノードを用意
 		prev = this;
 		next = this;
 	}
 
-	Cell(T value_, Cell* prev_, Cell* next_)
+	Node(T value_, Node* prev_, Node* next_)
 	{
 		value = value_;
 		prev = prev_;
@@ -30,44 +30,41 @@ struct Cell
 template <class T>
 class List
 {
+private:
+
+	//ダミー
+	Node<T>* dummy;
+	int size;
+
 public:
 	List()
 	{
-		dummy = new Cell<T>();
+		dummy = new Node<T>();
 
 		size = 0;
 	}
 
 	~List()
 	{
-		//Clear();
+		
 	}
 
 	//一番前に追加
 	void PushFront(T value_)
 	{
-		Cell<T>* cur = dummy;
+		Node<T>* cur = dummy;
 		Add(value_, cur);
 	}
 
-	/// <summary>
-	/// 一番後ろに追加
-	/// </summary>
-	/// <param name="value_">値</param>
 	void PushBack(T value_)
 	{
-		Cell<T>* cur = dummy->prev;
+		Node<T>* cur = dummy->prev;
 		Add(value_, cur);
 	}
 
-	/// <summary>
-	/// 任意の場所に追加
-	/// </summary>
-	/// <param name="value_">値</param>
-	/// <param name="num">追加する場所(0~)</param>
 	void Insert(T value_, int num)
 	{
-		Cell<T>* tmpCell = nullptr;
+		Node<T>* tmpCell = nullptr;
 		tmpCell = dummy;
 
 		//任意の場所まで移動
@@ -80,7 +77,52 @@ public:
 		Add(value_, tmpCell);
 	}
 
-	//
+	//セルが指した後ろに追加
+	void Add(T v, Node<T>* node)
+	{
+		//新しいセルを生成
+		Node<T>* newNode = new Node<T>(v, node, node->next);
+		node->next->prev = newNode;
+		node->next = newNode;
+		node = newNode;
+		size++;
+	}
+
+	void Dump()
+	{
+		Node<T>* ptr = dummy->next;
+		int index = 0;
+		for (int i = 0; i < size - 1; i++)
+		{
+			std::cout << ' ' << index << ':' << '"' << ptr->value << '"' << ',' << std::endl;
+			ptr = ptr->next;
+			index++;
+		}
+		std::cout << ' ' << index << ':' << '"' << ptr->value << '"' << std::endl;
+
+	}
+
+	void SpecifyElement(int num)
+	{
+		Node<T>* tmpCell = nullptr;
+		tmpCell = dummy;
+
+		int index = -1;
+
+		for (int i = 0; i < num + 1; i++)
+		{
+			tmpCell = tmpCell->next;
+			index++;
+		}
+
+		std::cout << index << ':' << tmpCell->value << '\n';
+	}
+
+	int Size()
+	{
+		return size;
+	}
+
 	bool Search(int num)
 	{
 		if (num < 0 || num>size)
@@ -91,11 +133,6 @@ public:
 		return true;
 	}
 
-	/// <summary>
-	/// 任意の場所の値を変更
-	/// </summary>
-	/// <param name="value_">値</param>
-	/// <param name="num">変更する場所(0~)</param>
 	bool ChangeValue(T value_, int num)
 	{
 
@@ -104,7 +141,7 @@ public:
 			return false;
 		}
 
-		Cell<T>* tmpCell = nullptr;
+		Node<T>* tmpCell = nullptr;
 		tmpCell = dummy;
 
 		//任意の場所まで移動
@@ -120,57 +157,6 @@ public:
 
 	}
 
-	/// <summary>
-	/// 一覧表示
-	/// </summary>
-	void Dump()
-	{
-		Cell<T>* ptr = dummy->next;
-		int index = 0;
-		for (int i = 0; i < size - 1; i++)
-		{
-			std::cout << ' ' << index << ':' << '"' << ptr->value << '"' << ',' << std::endl;
-			ptr = ptr->next;
-			index++;
-		}
-		std::cout << ' ' << index << ':' << '"' << ptr->value << '"' << std::endl;
-
-	}
-
-	void SpecifyElement(int num)
-	{
-		Cell<T>* tmpCell = nullptr;
-		tmpCell = dummy;
-
-		int index = -1;
-
-		for (int i = 0; i < num + 1; i++)
-		{
-			tmpCell = tmpCell->next;
-			index++;
-		}
-
-		std::cout << index << ':' << tmpCell->value << '\n';
-	}
-
-	T GetElement(int num)
-	{
-		Cell<T>* tmpCell = nullptr;
-		tmpCell = dummy;
-
-		for (int i = 0; i < num + 1; i++)
-		{
-			tmpCell = tmpCell->next;
-		}
-
-		return tmpCell->value;
-	}
-
-	int Size()
-	{
-		return size;
-	}
-
 	bool Delete(int num)
 	{
 		if (num < 0 || num>size)
@@ -178,7 +164,7 @@ public:
 			return false;
 		}
 
-		Cell<T>* tmpCell = nullptr;
+		Node<T>* tmpCell = nullptr;
 		tmpCell = dummy;
 
 		//任意の場所まで移動
@@ -197,12 +183,11 @@ public:
 		return true;
 	}
 
-
 	void Sort(bool flag = true)
 	{
-		Cell<T>* tmpCell = nullptr;
+		Node<T>* tmpCell = nullptr;
 
-		Cell<T>* tmpCell2 = nullptr;
+		Node<T>* tmpCell2 = nullptr;
 
 		for (int i = 0; i < (size - 1); i++)
 		{
@@ -233,27 +218,22 @@ public:
 		}
 	}
 
-private:
-
-	//ダミー
-	Cell<T>* dummy;
-
-	int size;
-
-	//セルが指した後ろに追加
-	void Add(T v, Cell<T>* node)
+	T GetElement(int num)
 	{
-		//新しいセルを生成
-		Cell<T>* newNode = new Cell<T>(v, node, node->next);
-		node->next->prev = newNode;
-		node->next = newNode;
-		node = newNode;
-		size++;
+		Node<T>* tmpCell = nullptr;
+		tmpCell = dummy;
+
+		for (int i = 0; i < num + 1; i++)
+		{
+			tmpCell = tmpCell->next;
+		}
+
+		return tmpCell->value;
 	}
 
-	Cell<T>* GetCell(int num)
+	Node<T>* GetCell(int num)
 	{
-		Cell<T>* tmpCell = dummy;
+		Node<T>* tmpCell = dummy;
 
 		//任意の場所まで移動
 		for (int i = 0; i < num + 1; i++)
@@ -388,7 +368,7 @@ void Insert(List<T>& list, int& SceneNo)
 	std::string insertNo;
 	while (std::getchar() != '\n');
 
-	std::getline(std::cin, insertNo);
+	std::cin >> insertNo;
 
 	if (insertNo == "")
 	{
