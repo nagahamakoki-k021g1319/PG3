@@ -361,6 +361,7 @@ void Display(List<T>& list, int& SceneNo, int& displaySceneNo)
 		SceneNo = 0;
 	}
 
+
 	//óvëfëÄçÏÇ…ñﬂÇÁÇ»Ç©Ç¡ÇΩÇÁ
 	if (displaySceneNo == 1 || displaySceneNo == 2)
 	{
