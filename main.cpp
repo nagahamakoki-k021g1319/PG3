@@ -8,7 +8,6 @@
 
 int main()
 {
-
 	int dice;//入力した数字を代入する変数
 	int result = 0;
 	int waitTime = 3000;//待ち時間用変数
@@ -35,7 +34,8 @@ int main()
 	//タイムアウトのセッター
 	std::function<void(std::function<void()>, const int)> setTimeOut = [=](std::function<void()> fx, int time)
 	{
-		fx(); Sleep(time);
+		Sleep(time);
+		fx();
 	};
 
 	//比較関数
