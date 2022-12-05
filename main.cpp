@@ -1,37 +1,26 @@
-#include<stdio.h>
-#include<windows.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <random>
+#include <Windows.h>
 
-typedef void (*PFunc)(int*);
+typedef int(pRand)();
 
-void Result(int* s) {
-    printf("%d•bŠÔ‘Ò‹@\n", *s);
+int GetRand() {
+    return rand();
 }
 
-void setTimerout(PFunc p, int second) {
-    p(&second);
-
-    Sleep(second* 1000);
-}
-
-int main() {
-
-    srand(time(nullptr));
-    int dice = rand();
-    int player = 0;
+int setTimerout(pRand rand, int time) {
+    int result;
+    printf("0‚©1‚Ì”Ô†‚Ì“ü—Í\n");
+    scanf_s("%d", &result);
     
-    printf("0‚©1‚ğ“ü—Í‚µ‚Ä‚Ë\n");
-    scanf_s("%d", &player);
-
+    int dice = rand();
     dice = dice % 2;
 
-    PFunc p;
-    p = Result;
-
-    setTimerout(p, 3);
-
-    if (player == 0) {
+    Sleep(time* 1000);
+    
+    if (result == 0) {
         if (dice == 0) {
             printf("“–‚½‚è\n");
         }
@@ -39,7 +28,7 @@ int main() {
             printf("‚Í‚¸‚ê\n");
         }
     }
-    else if (player == 1) {
+    else if (result == 1) {
         if (dice == 1) {
             printf("“–‚½‚è\n");
         }
@@ -47,6 +36,13 @@ int main() {
             printf("‚Í‚¸‚ê\n");
         }
     }
+    return 0;
+}
+
+int main() {
+    srand(time(nullptr));
+    pRand *random = GetRand;
+    int randTrue = setTimerout(random, 3);
 
     system("pause");
     return 0;
