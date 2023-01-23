@@ -26,20 +26,20 @@ void DispResult(int* second, int* number) {
 	//奇数の場合
 	if (*number == 1) {
 		if (getRand % 2 == 1) {
-			printf("アタリ\n%dが抽選で選ばれました\n", getRand);
+			printf("アタリ\n");
 		}
 		else {
-			printf("ハズレ\n%dが抽選で選ばれました\n", getRand);
+			printf("ハズレ\n");
 		}
 	}
 
 	//偶数の場合
 	else if (*number == 2) {
 		if (getRand % 2 == 0) {
-			printf("アタリ\n%dが抽選で選ばれました\n", getRand);
+			printf("アタリ\n");
 		}
 		else {
-			printf("ハズレ\n%dが抽選で選ばれました\n", getRand);
+			printf("ハズレ\n");
 		}
 	}
 }
