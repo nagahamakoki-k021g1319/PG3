@@ -4,46 +4,59 @@
 #include <random>
 #include <Windows.h>
 
-typedef int(pRand)();
+typedef void (*PFunc)(int*, int*);
 
-int GetRand() {
-    return rand();
+void setTimerout(PFunc p, int second, int number) {
+	//コールバック関数を呼び出す
+	Sleep(second * 1000);
+
+	p(&second, &number);
 }
 
-int setTimerout(pRand rand, int time) {
-    int result;
-    printf("0か1の番号の入力\n");
-    scanf_s("%d", &result);
-    
-    int dice = rand();
-    dice = dice % 2;
+//コールバック関数
+void DispResult(int* second, int* number) {
+	//ランダム
+	srand(time(nullptr));
 
-    Sleep(time* 1000);
-    
-    if (result == 0) {
-        if (dice == 0) {
-            printf("当たり\n");
-        }
-        else {
-            printf("はずれ\n");
-        }
-    }
-    else if (result == 1) {
-        if (dice == 1) {
-            printf("当たり\n");
-        }
-        else {
-            printf("はずれ\n");
-        }
-    }
-    return 0;
+	printf("3秒待って実行されたよ\n");
+
+	int getRand = rand();
+	getRand = getRand % 2;
+	
+	//奇数の場合
+	if (*number == 1) {
+		if (getRand % 2 == 1) {
+			printf("アタリ\n%dが抽選で選ばれました\n", getRand);
+		}
+		else {
+			printf("ハズレ\n%dが抽選で選ばれました\n", getRand);
+		}
+	}
+
+	//偶数の場合
+	else if (*number == 2) {
+		if (getRand % 2 == 0) {
+			printf("アタリ\n%dが抽選で選ばれました\n", getRand);
+		}
+		else {
+			printf("ハズレ\n%dが抽選で選ばれました\n", getRand);
+		}
+	}
 }
 
 int main() {
-    srand(time(nullptr));
-    pRand *random = GetRand;
-    int randTrue = setTimerout(random, 3);
 
-    system("pause");
-    return 0;
+	int number = 0;
+	//数字の入力
+	printf("1か2を入力してください\n");
+	scanf_s("%d", &number);
+
+	PFunc p;
+
+	p = DispResult;
+
+	setTimerout(p, 3, number);
+
+	system("pause");
+	return 0;
 }
