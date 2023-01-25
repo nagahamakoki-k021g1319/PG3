@@ -6,8 +6,13 @@ private:
 	~SceneManager();
 
 public:
-	SceneManager(const SceneManager& obj) = delete;
+	SceneManager(const SceneManager&) = delete;
 
+	SceneManager& operator = (const SceneManager&) = delete;
 
+	static SceneManager* GetInstance();
+
+	// ƒV[ƒ“Ø‚è‘Ö‚¦w
+	void SceneNo(int num);
 };
 
