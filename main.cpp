@@ -2,31 +2,50 @@
 #include<windows.h>
 #include<stdlib.h>
 #include<time.h>
-#include"SceneManager.h"
+#include<iostream>
+#include"Enemy.h"
+using namespace std;
+
+
 
 int main() {
-    //インスタンスを取得してすぐ使用
-    SceneManager* sceneManager = SceneManager::GetInstance();
+ 
 
-    int num = 0;
-	
+	Enemy* enemy = new Enemy;
+	Enemy* enemy2 = new Enemy;
+	Enemy* enemy3 = new Enemy;
+
+
+	int isExtin = 0;
 
 	while (true) {
 
-		sceneManager->SceneNo(num);
+		printf("1で倒す 2で生かす\n");
+		scanf_s("%d", &isExtin);
 
-		if (num >= 4) {
-
-			num = 0;
+		switch (isExtin)
+		{
+		case 1:// sine
+			Enemy::isAlive = false;
+			break;
+		case 2:// ikikiru
+			Enemy::isAlive = true;
+			break;
 		}
-		else {
 
-			num++;
+		if (isExtin == 1 || isExtin == 2) {
+			enemy->Juge();
+			enemy2->Juge();
+			enemy3->Juge();
 		}
 
 		Sleep(1 * 1000);
 
 	}
+
+	delete enemy;
+	delete enemy2;
+	delete enemy3;
 
 
     system("pause");
