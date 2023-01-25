@@ -1,31 +1,30 @@
 #include<stdio.h>
-#include<windows.h>
 #include<stdlib.h>
 #include<time.h>
 #include<iostream>
-#include"Enemy.h"
+#include "Circle.h"
+#include "IShape.h"
+#include "Rectangle.h"
 using namespace std;
 
 
 
 int main() {
- 
+    
+    IShape* iShape[] = {
+        new Circle,
+        new Rectangle
+    };
 
 
-	Enemy* enemy = new Enemy;
+    iShape[0]->size();
+    iShape[0]->draw();
 
-	enemy->Reset();
+    iShape[1]->size();
+    iShape[1]->draw();
 
-	while (true) {
-
-		enemy->Update();
-
-		// Œ‹‰Ê‚ðŒ©‚â‚·‚­‚·‚é‚½‚ß
-		Sleep(1 * 1000);
-
-	}
-
-	delete enemy;
+    delete iShape[0];
+    delete iShape[1];
 
     system("pause");
     return 0;
