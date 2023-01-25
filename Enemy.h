@@ -5,13 +5,24 @@
 class Enemy
 {
 public:
+	//自作メンバ関数
+	void Func1();
+	void Func2();
+	void Func3();
+
 	//死ぬ?生きる?
-	void Juge();
+	void Update();
 
-public:
+	//リセット
+	void Reset();
 
-	//静的メンバ変数
-	static bool isAlive;
+private:
 
+	//メンバ関数ポインタのテーブル
+	static void (Enemy::* Action[])();
+
+
+private:
+	int phase_ = 0;
 };
 
