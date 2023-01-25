@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-bool Enemy::isAlive;
+bool Enemy::isAlive = true;
 
 void Enemy::Juge()
 {
